@@ -69,12 +69,12 @@ atom/movable
 			movedElements += element
 
 			if(!moveResult)
-				_resetPhysicalElementPosition(movedElements, step_x, step_y)
+				_resetPhysicalElementPosition(movedElements)
 				return 0
 
 		var/parentMoveSuccess = ..(NewLoc, Dir, step_x, step_y)
 		if(!parentMoveSuccess)
-			_resetPhysicalElementPosition(movedElements, step_x, step_y)
+			_resetPhysicalElementPosition(movedElements)
 
 		return parentMoveSuccess
 	
