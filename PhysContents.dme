@@ -14,8 +14,8 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
-#include "Demo.dm"
-#include "PhysContents.dm"
 #include "Map.dmm"
+#include "Code\PhysContents.dm"
+#include "Demo\Demo.dm"
 // END_INCLUDE
 
