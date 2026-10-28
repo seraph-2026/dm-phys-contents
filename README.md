@@ -32,8 +32,8 @@ The key is ```physLoc``` which accepts (x, y, z) coordinate offsets.
 ## How to remove an object
 It's very plain and simply to do so.
 ```java
-player.phys_contents.remove(leftSection)
-player.phys_contents.remove(list(leftSection, middleSection, rightSection))
+player.phys_contents -= leftSection
+player.phys_contents -= list(leftSection, middleSection, rightSection)
 ```
 ## How to access physical contents
 If you want to see a list of all the contents of phys_contents this is how you'd do it
