@@ -1,24 +1,41 @@
 # DM Physical Contents
 
-Adds a new variable to DM called
-```java
-atom.phys_contents
-```
+# Brief summary
+This library adds a new variable to ```atom``` called ```phys_contents``` which functions exactly like vis_contents, only the contents are physically real, having density and map prescence.
 
-## How to add an object
+When your atom moves, the physical contents move with it.
+
+## Adding an object to phys_contents
+This will place ```bike``` at the location of ```player```, where it will now move in step with it.
 ```java
-atom.phys_contents.add(new/obj/someObj, 0, 1)
+var/obj/bike = new/obj/bike()
+player.phys_contents += someObj
 ```
-The coordinates 0, 1 are relative positions to the parent atom in tiles.
+## How to position elements
+Sometimes you want to position elements relative to the player. This is how you do it.
+```java
+var/obj/boat/leftSection = new/obj/boat()
+var/obj/boat/middleSection = new/obj/boat()
+var/obj/boat/rightSection = new/obj/boat()
+
+player.phys_contents += list(leftSection, middleSection, rightSection)
+
+// Places boat pieces left center and right of the player. That move along with it
+boatLeft.physLoc(-1, 0, 0)
+boatLeft.physLoc(0, 0, 0)
+boatLeft.physLoc(1, 0, 0)
+```
+The key is ```physLoc``` which accepts (x, y, z) coordinate offsets. 
 
 ## How to remove an object
-If someObj is in the contents, it can be removed like so.
+It's very plain and simply to do so.
 ```java
-atom.phys_contents.remove(someObj)
+atom.phys_contents.remove(someAtom)
+atom.phys_contents.remove(list(someAtom, someAtom2))
 ```
 ## How to access physical contents
 If you want to see a list of all the contents of phys_contents this is how you'd do it
 ```java
-for(var/atom/movable/a in atom.phs_contents.contents)
+for(var/atom/movable/someAtom in player.phys_contents.elements)
 	world << "[a.type]"
 ```

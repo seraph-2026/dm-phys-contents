@@ -2,28 +2,36 @@
 mob
 	icon = 'Icons.dmi'
 	icon_state = "Player"
+	density = 1
 
 	Login()
 		src.loc = locate(50,50,1)
-		src.phys_contents.add(new/obj/air_ship(), 0, 1)
-		src.phys_contents.add(new/obj/air_ship(), 0, -1)
-		src.phys_contents.add(new/obj/air_ship(), 1, 0)
-		src.phys_contents.add(new/obj/air_ship(), -1, 0)
+
+		var/obj/boat/leftSection = new/obj/boat()
+		var/obj/boat/middleSection = new/obj/boat()
+		var/obj/boat/rightSection = new/obj/boat()
+
+		src.phys_contents += list(leftSection, middleSection, rightSection)
+
+		leftSection.physLoc(-1, 0, 0)
+		middleSection.physLoc(0, 0, 0)
+		rightSection.physLoc(1, 0, 0)
+
 
 world
 	view = 15
 	fps = 30
 
-obj/air_ship
+obj/boat
 	icon = 'Icons.dmi'
-	icon_state = "Airship"
+	icon_state = "Boat"
 	density = 1
 
-turf/grass
+turf/water
 	icon = 'Icons.dmi'
-	icon_state = "Grass"
+	icon_state = "Water"
 
-turf/tree
+turf/rock
 	icon = 'Icons.dmi'
-	icon_state = "Tree"
+	icon_state = "Rock"
 	density = 1
