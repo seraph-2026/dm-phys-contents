@@ -1,0 +1,33 @@
+{
+    "workbench.iconTheme": "material-icon-theme",
+
+    "material-icon-theme.files.associations": {
+        "*.dm": "document",
+        "*.dme": "settings",
+        "*.dmf": "3d",
+        "*.dmm": "3d",
+        "*.dmi": "image",
+        "*.dmb": "exe",
+        "*.int": "assembly",
+        "*.rsc": "assembly",
+        "*.rsc.lk": "assembly",
+        "*.lk": "assembly"
+    },
+
+    "material-icon-theme.folders.theme": "classic",
+
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+    "[markdown]": {
+        "editor.formatOnSave": false
+    },
+
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/build": true
+    },
+    "editor.insertSpaces": false,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false
+}

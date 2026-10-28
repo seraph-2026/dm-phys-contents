@@ -1,0 +1,54 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "DM Build",
+            "type": "shell",
+            "command": "C:\\Program Files (x86)\\BYOND\\bin\\dm.exe",
+            "args": ["C:\\Game Development\\BYOND Projects\\PhysContents\\PhysContents.dme"],
+            "problemMatcher": {
+                "owner": "dm",
+                "fileLocation": ["relative", "${workspaceFolder}"],
+                "pattern": {
+                    "regexp": "^([^:]+):(\\d+):([^:]+): (.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "severity": 3,
+                    "message": 4
+                }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "DM Run",
+            "type": "shell",
+            "command": "C:\\Program Files (x86)\\BYOND\\bin\\dreamseeker.exe",
+            "args": ["C:\\Game Development\\BYOND Projects\\PhysContents\\PhysContents.dmb"],
+            "problemMatcher": {
+                "owner": "dm",
+                "fileLocation": ["relative", "${workspaceFolder}"],
+                "pattern": {
+                    "regexp": "^([^:]+):(\\d+):([^:]+): (.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "severity": 3,
+                    "message": 4
+                }
+            },
+
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        }
+    ]
+}
