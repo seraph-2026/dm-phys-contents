@@ -20,7 +20,7 @@ mob
 
 world
 	view = 15
-	fps = 30
+	fps = 25
 
 obj/boat
 	icon = 'Icons.dmi'

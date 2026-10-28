@@ -2,6 +2,13 @@
 
 atom/movable
 	/**
+	 * For physical contents to move together in sync, this needs to be enabled
+	 * 
+	 * It can be overriden, but that will introduce possible stuttering in some cases.
+	 */
+	animate_movement = SYNC_STEPS
+
+	/**
 	 * All atom/movable get a physical contents
 	 */
 	var/phys_contents/phys_contents
@@ -120,7 +127,6 @@ phys_contents
 	proc/_addSingleElement(var/atom/movable/someAtom)
 		elements += someAtom
 		someAtom.phys_parent = owner
-		someAtom.animate_movement = SYNC_STEPS
 		someAtom.physLoc(0, 0, 0)
 
 	/**
@@ -158,5 +164,4 @@ phys_contents
 	proc/_removeSingleElement(var/atom/movable/someAtom)
 		elements -= someAtom
 		someAtom.phys_parent = null
-		someAtom.animate_movement = FORWARD_STEPS 
 
