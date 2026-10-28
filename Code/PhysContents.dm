@@ -6,20 +6,27 @@
  * Every atom keeps tack of it's physical contents parent
  */
 atom
+	/**
+	 * Public
+	 */
 	var/atom/movable/phys_parent
 
 /**
- * Atom movables now have phys_contents
+ * Makes phys_contents available on atom/movable types
  */
 atom/movable
-	var/phys_contents/phys_contents // Used similar to vis_contents
-	var/phys_saved_icon // Used to save the icon this uses
-	var/atom/movable/phys_vis_clone // 
-	var/phys_lastSavedLoc // Used if steps fail
-
 	/**
-	 * Every atom gets a phys contents
+	 * Public
 	 */
+	var/phys_contents/phys_contents // Used similar to vis_contents
+	
+	/**
+	 * Private
+	 */
+	var/atom/movable/_physVisClone // 
+	var/_physLastSavedLoc // Used if steps fail
+
+
 	New()
 		..()
 		phys_contents = new/phys_contents(src)
@@ -90,7 +97,7 @@ phys_contents
 
 		for(var/atom/movable/childAtom in contents)
 			// Allow us to revert if any failed steps are found
-			childAtom.phys_lastSavedLoc = childAtom.loc
+			childAtom._physLastSavedLoc = childAtom.loc
 
 			// Attempt child atom step
 			var/stepResult = step(childAtom, Dir)
@@ -112,8 +119,8 @@ phys_contents
 	proc/reverseMove()
 		// Reverse all child atom steps
 		for(var/atom/movable/childAtom in contents)
-			if(childAtom.phys_lastSavedLoc)
-				childAtom.loc = childAtom.phys_lastSavedLoc
+			if(childAtom._physLastSavedLoc)
+				childAtom.loc = childAtom._physLastSavedLoc
 
 	/**
 	 * Once a move has been completed, the saved locations are stale and need to be removed
@@ -121,7 +128,7 @@ phys_contents
 	proc/clearSavedPositions()
 		// Reverse all child atom steps
 		for(var/atom/movable/childAtom in contents)
-			childAtom.phys_lastSavedLoc = null
+			childAtom._physLastSavedLoc = null
 
 	/**
 	 * Add any atom to the physical contents of another
@@ -143,36 +150,38 @@ phys_contents
 		 */
 		visCloneA.pixel_x = tile_x * ICON_SIZE_X
 		visCloneA.pixel_y = tile_y * ICON_SIZE_Y
-		//phys_parent.vis_contents += visCloneA
+		phys_parent.vis_contents += visCloneA
 
 		/**
 		 * Positions physical contents relative to parent's position
 		 */
-		someAtom.loc = locate(phys_parent.x + tile_x, phys_parent.y + tile_y, phys_parent.z)
+		locateRelativeToParent(phys_parent.x + tile_x, phys_parent.y + tile_y, phys_parent.z)
 
-		// Remove the physical appearance but save it
-		someAtom.phys_saved_icon = someAtom.icon
-		//someAtom.icon = null
+		// Make inviisble
+		someAtom.alpha = 0
 
 		// Track the parent
 		someAtom.phys_parent = src.phys_parent
 
-		// Now there's a visual representation and an invisible physical representation
-
+	/**
+	 * Positions atom/movable relative to phys_contents parent's position
+	 * 
+	 * x, y, z are measured in tiles
+	 */
+	proc/locateRelativeToParent(var/atom/movable, x, y, z)
+		
+		 someAtom.loc =locate(phys_parent.x + tile_x, phys_parent.y + tile_y, phys_parent.z)
 		
 	/**
 	 * Remove any atom from the physical contents of another
 	 */
 	proc/remove(var/atom/movable/someAtom)
-		/**
-		 * Remove from visual and physical contents and reset its icon
-		 */
 		contents -= someAtom
 		vis_contents -= someAtom.phys_vis_clone
-		someAtom.icon = someAtom.phys_saved_icon
-
-		// Remove parent tracking
 		someAtom.phys_parent = null
+
+		// Make visible again
+		someAtom.alpha = 255 
 		
 
 
