@@ -6,10 +6,9 @@ mob
 	Login()
 		src.loc = locate(50,50,1)
 		src.phys_contents.add(new/obj/air_ship(), 0, 1)
-	
-	Move(NewLoc, d)
-		sleep(1)
-		return ..()
+		src.phys_contents.add(new/obj/air_ship(), 0, -1)
+		src.phys_contents.add(new/obj/air_ship(), 1, 0)
+		src.phys_contents.add(new/obj/air_ship(), -1, 0)
 
 world
 	view = 15

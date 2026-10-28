@@ -46,9 +46,12 @@ atom/movable
 		// If the player failed to move, then revert the physical contents back as well
 		if(!playerMoveResult)
 			phys_contents.reverseMove()
+			phys_contents.clearSavedPositions()
+			return 0
 		
 		// Otherwise return the parents move result
 		else
+			phys_contents.clearSavedPositions()
 			return playerMoveResult
 
 	/**
@@ -91,7 +94,6 @@ phys_contents
 
 			// Attempt child atom step
 			var/stepResult = step(childAtom, Dir)
-			world << "Child step result [stepResult]"
 			
 			// Failed step attempt
 			if(!stepResult)
@@ -110,7 +112,16 @@ phys_contents
 	proc/reverseMove()
 		// Reverse all child atom steps
 		for(var/atom/movable/childAtom in contents)
-			childAtom.loc = childAtom.phys_lastSavedLoc
+			if(childAtom.phys_lastSavedLoc)
+				childAtom.loc = childAtom.phys_lastSavedLoc
+
+	/**
+	 * Once a move has been completed, the saved locations are stale and need to be removed
+	 */
+	proc/clearSavedPositions()
+		// Reverse all child atom steps
+		for(var/atom/movable/childAtom in contents)
+			childAtom.phys_lastSavedLoc = null
 
 	/**
 	 * Add any atom to the physical contents of another
@@ -132,7 +143,7 @@ phys_contents
 		 */
 		visCloneA.pixel_x = tile_x * ICON_SIZE_X
 		visCloneA.pixel_y = tile_y * ICON_SIZE_Y
-		phys_parent.vis_contents += visCloneA
+		//phys_parent.vis_contents += visCloneA
 
 		/**
 		 * Positions physical contents relative to parent's position
@@ -141,7 +152,7 @@ phys_contents
 
 		// Remove the physical appearance but save it
 		someAtom.phys_saved_icon = someAtom.icon
-		someAtom.icon = null
+		//someAtom.icon = null
 
 		// Track the parent
 		someAtom.phys_parent = src.phys_parent
