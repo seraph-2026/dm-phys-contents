@@ -21,17 +21,17 @@ var/obj/boat/rightSection = new/obj/boat()
 player.phys_contents += list(leftSection, middleSection, rightSection)
 
 // Places boat pieces left center and right of the player. That move along with it
-boatLeft.physLoc(-1, 0, 0)
-boatLeft.physLoc(0, 0, 0)
-boatLeft.physLoc(1, 0, 0)
+leftSection.physLoc(-1, 0, 0)
+middleSection.physLoc(0, 0, 0)
+rightSection.physLoc(1, 0, 0)
 ```
 The key is ```physLoc``` which accepts (x, y, z) coordinate offsets. 
 
 ## How to remove an object
 It's very plain and simply to do so.
 ```java
-atom.phys_contents.remove(someAtom)
-atom.phys_contents.remove(list(someAtom, someAtom2))
+player.phys_contents.remove(leftSection)
+player.phys_contents.remove(list(leftSection, middleSection, rightSection))
 ```
 ## How to access physical contents
 If you want to see a list of all the contents of phys_contents this is how you'd do it
