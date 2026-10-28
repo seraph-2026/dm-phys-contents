@@ -144,7 +144,12 @@ phys_contents
 			
 		else
 			throw EXCEPTION("phys_contents expects .remove() to recieve a list or atoms, or a single atom. Actually got ([atomOrList])")
-	
+	/**
+	 * Change -= to remove()
+	 */
+	proc/operator-=(var/someInput)
+		src.remove(someInput)
+
 	/**
 	 * Private
 	 * 
