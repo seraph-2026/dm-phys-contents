@@ -27,13 +27,15 @@ leftSection.physLoc(-1, 0, 0)
 middleSection.physLoc(0, 0, 0)
 rightSection.physLoc(1, 0, 0)
 ```
-The key is ```physLoc``` which accepts (x, y, z) coordinate offsets. 
+The key is ```physLoc``` which accepts (x, y, z) coordinate offsets relative to the owner of the phys_contents
+
+Also note that z is optional, with it defaulting to zero which means, equivalent to the parent's z level.
 
 ## How to remove an object
 It's very plain and simply to do so.
 ```java
-player.phys_contents.remove(leftSection)
-player.phys_contents.remove(list(leftSection, middleSection, rightSection))
+player.phys_contents -= leftSection
+player.phys_contents -= list(leftSection, middleSection, rightSection)
 ```
 ## How to access physical contents
 If you want to see a list of all the contents of phys_contents this is how you'd do it
