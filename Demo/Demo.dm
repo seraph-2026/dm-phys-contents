@@ -3,7 +3,6 @@ mob
 	icon = 'Icons.dmi'
 	icon_state = "Player"
 	density = 1
-	step_size = 4
 
 	Login()
 		src.loc = locate(50,50,1)
@@ -21,7 +20,7 @@ mob
 
 world
 	view = 15
-	fps = 30
+	fps = 25
 
 obj/boat
 	icon = 'Icons.dmi'

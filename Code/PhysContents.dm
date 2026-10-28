@@ -69,17 +69,12 @@ atom/movable
 			movedElements += element
 
 			if(!moveResult)
-				// Reset all phys contents that moved
-				for(var/atom/movable/movedElement in movedElements)
-					movedElement.physLoc(movedElement.phys_x, movedElement.phys_y, movedElement.phys_z)
-				
+				_resetPhysicalElementPosition(movedElements, step_x, step_y)
 				return 0
 
 		var/parentMoveSuccess = ..(NewLoc, Dir, step_x, step_y)
 		if(!parentMoveSuccess)
-			// Reset all phys contents in total
-			for(var/atom/movable/movedElement in movedElements)
-				movedElement.physLoc(movedElement.phys_x, movedElement.phys_y, movedElement.phys_z)
+			_resetPhysicalElementPosition(movedElements, step_x, step_y)
 
 		return parentMoveSuccess
 	
@@ -91,6 +86,18 @@ atom/movable
 			var/atom/movable/someMovableAtom = someAtom
 			if(someMovableAtom.phys_parent == src.phys_parent || someMovableAtom.phys_parent == src || someMovableAtom == src.phys_parent)
 				return 1
+	
+	/**
+	 * Private
+	 * 
+	 * Resets the position of each element back to relative to the parents current position
+	 */
+	proc/_resetPhysicalElementPosition(var/list/physicalElements)
+		// Reset all phys contents in total
+		for(var/atom/movable/movedElement in physicalElements)
+			movedElement.physLoc(movedElement.phys_x, movedElement.phys_y, movedElement.phys_z)
+			movedElement.step_x = src.step_x
+			movedElement.step_y = src.step_y
 
 phys_contents
 	/**
