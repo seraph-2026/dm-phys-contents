@@ -41,5 +41,5 @@ player.phys_contents -= list(leftSection, middleSection, rightSection)
 If you want to see a list of all the contents of phys_contents this is how you'd do it
 ```java
 for(var/atom/movable/someAtom in player.phys_contents.elements)
-	world << "[a.type]"
+	world << "[someAtom.type]"
 ```
