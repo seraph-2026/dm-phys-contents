@@ -27,7 +27,7 @@ leftSection.physLoc(-1, 0, 0)
 middleSection.physLoc(0, 0, 0)
 rightSection.physLoc(1, 0, 0)
 ```
-The key is ```physLoc``` which accepts (x, y, z) coordinate offsets. 
+The key is ```physLoc``` which accepts (x, y, z) coordinate offsets relative to the owner of the phys_contents
 
 ## How to remove an object
 It's very plain and simply to do so.
