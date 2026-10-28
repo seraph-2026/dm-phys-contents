@@ -58,7 +58,7 @@ atom/movable
 			)
 			
 			var/moveResult = element.Move(childNewLoc, Dir, step_x, step_y)
-			world << "atom move results [moveResult]"
+
 			movedElements += element
 
 			if(!moveResult)
@@ -74,8 +74,6 @@ atom/movable
 			for(var/atom/movable/movedElement in movedElements)
 				movedElement.physLoc(movedElement.phys_x, movedElement.phys_y, movedElement.phys_z)
 
-		world << "parent move results [parentMoveSuccess]"
-		
 		return parentMoveSuccess
 	
 	/**
@@ -84,7 +82,7 @@ atom/movable
 	Cross(var/atom/someAtom)
 		if(ismovable(someAtom))
 			var/atom/movable/someMovableAtom = someAtom
-			if(someMovableAtom.phys_parent == src.phys_parent || someMovableAtom.phys_parent == src)
+			if(someMovableAtom.phys_parent == src.phys_parent || someMovableAtom.phys_parent == src || someMovableAtom == src.phys_parent)
 				return 1
 
 phys_contents
