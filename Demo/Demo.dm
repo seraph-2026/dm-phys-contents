@@ -5,8 +5,8 @@ mob
 	density = 1
 
 	Login()
-		src.loc = locate(50,50,1)
-		addBoat(3, 2)
+		src.loc = locate(50, 50,1)
+		addBoat(3, 1)
 
 	proc
 		/**

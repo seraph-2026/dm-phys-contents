@@ -1,14 +1,14 @@
 
 mob
 	/**
-	 * Required for opacity to work with this library. 
+	 * Required for opacity to work with this library.
 	 */
 	sight = SEE_PIXELS
 
 atom/movable
 	/**
 	 * For physical contents to move together in sync, this needs to be enabled
-	 * 
+	 *
 	 * It can be overriden, but that will introduce possible stuttering in some cases.
 	 */
 	animate_movement = SYNC_STEPS
@@ -26,12 +26,12 @@ atom/movable
 	New()
 		..()
 		phys_contents = new(src) // Set phys_parent
-	
+
 	/**
 	 * All atom/movable can be positioned in a phys_contents
-	 * 
+	 *
 	 * This is relative to their phys_parent
-	 * 
+	 *
 	 * Setting these directly won't do anything
 	 */
 	var/phys_x = 0
@@ -40,13 +40,13 @@ atom/movable
 
 	/**
 	 * Some atoms in physical contents represent border elements.
-	 * 
+	 *
 	 * This means the elements are not surrounded on all sides by other members of the same phys_contents.
-	 * 
+	 *
 	 * This means they touch things which are not phys_contents and need to Bump() check.
-	 * 
+	 *
 	 * For elements that are not border elements, they have all sides (NSEW) containing elements of the same phys contents.
-	 * 
+	 *
 	 * This means their next move is guarnteed to be a success and we just edit their location rather than doing all the bump checks.
 	 */
 	var/phys_isBorder = 0
@@ -55,16 +55,18 @@ atom/movable
 	 * Used to set loc relative to phys_contents parent
 	 */
 	proc/physLoc(var/x, var/y, var/z = 0)
+		if(!phys_parent) throw EXCEPTION("Attempted to use physLoc() on [src] which isn't in the physical contents of anything.")
+
 		phys_x = x
 		phys_y = y
 		phys_z = z
 
 		loc = locate(
 			phys_parent.x + phys_x,
-			phys_parent.y + phys_y, 
+			phys_parent.y + phys_y,
 			phys_parent.z + phys_z
 		)
-	
+
 	/**
 	 * When atom with phys_contents moves, all contents move
 	 */
@@ -75,7 +77,7 @@ atom/movable
 
 			// Phys elements need to position relative to the NewLoc
 			var/childNewLoc = locate(
-				NewLoc.x + borderElement.phys_x, 
+				NewLoc.x + borderElement.phys_x,
 				NewLoc.y + borderElement.phys_y,
 				NewLoc.z + borderElement.phys_z
 			)
@@ -89,16 +91,16 @@ atom/movable
 				if(!moveResult)
 					_resetBorderElementPositions()
 					return 0
-		
+
 		var/parentMoveSuccess = ..(NewLoc, Dir, step_x, step_y)
 		if(!parentMoveSuccess)
 			_resetBorderElementPositions()
 
 		/**
 		 * Border elements & the parent successfully moved
-		 * 
+		 *
 		 * Inner elements can now move directly, as an optimization to skip redundant movement procs
-		 * 
+		 *
 		 * These are always successful
 		 */
 		else
@@ -106,7 +108,7 @@ atom/movable
 			for(var/atom/movable/innerElement in src.phys_contents._innerElements)
 
 				var/childNewLoc = locate(
-					src.loc.x + innerElement.phys_x, 
+					src.loc.x + innerElement.phys_x,
 					src.loc.y + innerElement.phys_y,
 					src.loc.z + innerElement.phys_z
 				)
@@ -119,7 +121,7 @@ atom/movable
 
 		// Return relevant success data
 		return parentMoveSuccess
-	
+
 	/**
 	 * Physical contents can cross themselves and their parents freely
 	 */
@@ -128,10 +130,10 @@ atom/movable
 			var/atom/movable/someMovableAtom = someAtom
 			if(someMovableAtom.phys_parent == src.phys_parent || someMovableAtom.phys_parent == src || someMovableAtom == src.phys_parent)
 				return 1
-	
+
 	/**
 	 * Private
-	 * 
+	 *
 	 * Resets the position of each element back to relative to the parents current position
 	 */
 	proc/_resetBorderElementPositions()
@@ -150,20 +152,20 @@ phys_contents
 
 	/**
 	 * Physical contents is internally reprsented as a conjunction of two lists
-	 * 
+	 *
 	 * Border and inner elements. This is used for optimization because inner elements are guarnteed to move successfully but
 	 * only if all the border elements moved successfully.
-	 * 
+	 *
 	 * A border element has neighboring tiles that don't contain atoms with this phys_parents
 	 * An inner element has all neighboring tiles contaiing atoms of this phy_parent
-	 * 
+	 *
 	 */
 	var/list/_borderElements = list()
 	var/list/_innerElements = list()
 
 	New(var/atom/movable/owner)
 		src.owner = owner
-	
+
 	/**
 	 * Adds an atom/movable to a physical contents
 	 */
@@ -179,10 +181,10 @@ phys_contents
 
 		else
 			throw EXCEPTION("phys_contents expects .add() to recieve a list or atoms, or a single atom. Actually got ([atomOrList])")
-	
+
 	/**
 	 * Private
-	 * 
+	 *
 	 * Adds a single element only
 	 */
 	proc/_addSingleElement(var/atom/movable/someAtom)
@@ -196,14 +198,14 @@ phys_contents
 		_decideIsBorder(someAtom)
 		_updateNeighborBorders(someAtom)
 
-	
+
 	/**
 	 * Private
-	 * 
+	 *
 	 * Sets the phys_isBorder value of the object based on what atoms of the same phys_parent are around it.
-	 * 
+	 *
 	 * If all directions contains atoms of the same phys_parent then it's not a border.
-	 * 
+	 *
 	 * If any direcitons are missing an element of the same phys_parent, then it's a border
 	 */
 	proc/_decideIsBorder(var/atom/movable/someAtom)
@@ -230,15 +232,15 @@ phys_contents
 		else
 			someAtom.phys_isBorder = 1
 			_borderElements += someAtom
-	
 
 
-	
+
+
 	/**
 	 * Private
-	 * 
+	 *
 	 * It's possible the neighbors of an atom need to have their border status updated when adding or removing atoms.
-	 * 
+	 *
 	 * This wil update the status of all neighboring atoms of the same phys_parents
 	 */
 	proc/_updateNeighborBorders(var/atom/movable/someAtom)
@@ -251,7 +253,7 @@ phys_contents
 
 	/**
 	 * Private
-	 * 
+	 *
 	 * Returns true if loc contains members of phys_parent
 	 */
 	proc/_locContainsPhysElement(var/atom/loc, var/phys_parent)
@@ -280,7 +282,7 @@ phys_contents
 		else if(ismovable(atomOrList))
 			var/atom/movable/someAtom = atomOrList
 			_removeSingleElement(someAtom)
-			
+
 		else
 			throw EXCEPTION("phys_contents expects .remove() to recieve a list or atoms, or a single atom. Actually got ([atomOrList])")
 	/**
@@ -291,7 +293,7 @@ phys_contents
 
 	/**
 	 * Private
-	 * 
+	 *
 	 * Removes a single element only
 	 */
 	proc/_removeSingleElement(var/atom/movable/someAtom)
